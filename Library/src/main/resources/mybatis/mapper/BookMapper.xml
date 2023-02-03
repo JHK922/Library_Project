@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.library.mapper.BookMapper">
+    <sql id="postColumns">
+        id
+        , title
+        , writer
+        , p_date
+        , status
+        , recommend
+        , createdAt
+        , modifiedAt
+        , deleteStatus
+    </sql>
+
+    <!-- Book 전체 조회 페이징 추가 필요 (정렬 순서) -->
+    <select id="getBookList" resultType="com.project.library.dto.response.BookResponseDto">
+        SELECT * FROM book;
+    </select>
+
+<!--    &lt;!&ndash; book 테이블에서 book title로 조회   &ndash;&gt;-->
+<!--    <select id="findByTitle" resultType="com.project.library.dto.response.BookResponseDto">-->
+<!--        SELECT * FROM book WHERE b_title=#{b_title} ORDER BY b_id;-->
+<!--    </select>-->
+
+    <!-- book 테이블에서 book title로 조회, 고유 id 기준 가장 최근 데이터를 조회   -->
+    <select id="findByTitle" resultType="com.project.library.dto.response.BookResponseDto">
+        SELECT * FROM book WHERE title=#{title} ORDER BY id DESC limit 1;
+    </select>
+    <!-- book 테이블에서 book title로 조회, 고유 id 기준 가장 최근 데이터를 조회   -->
+    <select id="findsByTitle" resultType="com.project.library.dto.response.BookResponseDto">
+        SELECT * FROM book WHERE title=#{title} ORDER BY id DESC;
+    </select>
+
+    <!-- Writer로 조회, 고유 id 기준 내림차순 정렬   -->
+    <select id="findByWriter" resultType="com.project.library.dto.response.BookResponseDto">
+        SELECT * FROM book WHERE writer=#{writer} ORDER BY id DESC;
+    </select>
+    <!-- Book 고유키 id로 조회   -->
+    <select id="findByBookId" resultType="com.project.library.dto.response.BookResponseDto">
+        SELECT * FROM book WHERE id = #{id};
+    </select>
+
+<!--    <select id="findByCategoryId" resultType="com.project.library.dto.response.BookResponseDto">-->
+<!--        SELECT * FROM book where-->
+<!--    </select>-->
+
+    <update id="deleteBook" parameterType="Long">
+        UPDATE book SET deleteStatus = false WHERE id = #{id}
+    </update>
+
+    <!-- request Body 요청 데이터를 DB에 저장-->
+    <insert id="saveBook" parameterType="com.project.library.dto.request.BookPostRequestDto">
+        INSERT INTO book (
+                          <include refid="postColumns"></include>
+        ) VALUES (
+                  #{id}
+        ,#{title}
+        ,#{writer}
+        ,#{p_date}
+        ,#{status}
+        ,0
+        ,now()
+        ,null
+        ,true)
+
+    </insert>
+
+    <update id="updateBook" parameterType="com.project.library.dto.request.BookPostRequestDto">
+        UPDATE book
+        SET
+            title = #{title},
+            writer = #{writer},
+            p_date = #{p_date},
+            status = #{status},
+            modifiedAt = now()
+        WHERE
+            id = #{id}
+    </update>
+
+
+</mapper>
