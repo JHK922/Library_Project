@@ -13,11 +13,11 @@ public class BookResponseDto {
     private Long id;
     private String title; //책 제목
     private String writer; //책 지은이
-    private Date p_date; //책 출판일
+    private Date publicateAt; //책 출판일
     private String status; //책 상태(대여 유/무, 입고 예정 등)
     private int recommend;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
-    private Boolean deleteStatus;
+    private boolean deleteStatus;
 
 }
