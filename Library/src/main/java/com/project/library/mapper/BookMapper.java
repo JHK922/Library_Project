@@ -1,5 +1,6 @@
 package com.project.library.mapper;
 
+import com.project.library.dto.request.BookPatchRequestDto;
 import com.project.library.dto.request.BookPostRequestDto;
 import com.project.library.dto.response.BookResponseDto;
 import org.apache.ibatis.annotations.Mapper;
@@ -48,10 +49,10 @@ public interface BookMapper {
     BookResponseDto findByBookId(Long bookId);
     /**
      * 책 이름으로 조회, 내림차순 정렬(최신순)
-     * @param bookTitle
+     * @param patchRequest
      * @return
      */
 //    List<BookResponseDto> getBookWithTitle(String bookTitle);
 
-    void updateBook(Long bookId, BookPostRequestDto request);
+    void updateBook(BookPatchRequestDto patchRequest);
 }

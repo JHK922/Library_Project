@@ -1,5 +1,6 @@
 package com.project.library.controller;
 
+import com.project.library.dto.request.BookPatchRequestDto;
 import com.project.library.dto.request.BookPostRequestDto;
 import com.project.library.dto.response.BookResponseDto;
 import com.project.library.response.MultiResponse;
@@ -95,11 +96,15 @@ public class BookController {
     /**
      * book 정보 업데이트
      * @param bookId
-     * @param request
+     * @retuen responseDto
      */
     @PutMapping("/{book-id}")
-    public ResponseEntity updateBook(@PathVariable("book-id") Long bookId, @RequestBody BookPostRequestDto request) {
-        BookResponseDto responseDto = bookService.updateBook(bookId, request);
+    public ResponseEntity updateBook(@PathVariable("book-id") Long bookId, @RequestBody BookPatchRequestDto patchRequest) {
+
+        patchRequest.setId(bookId);
+        bookService.updateBook(patchRequest);
+        BookResponseDto responseDto = bookService.findById(bookId);
+
         return new ResponseEntity(new SingleResponse<>(responseDto), HttpStatus.OK);
     }
 }
