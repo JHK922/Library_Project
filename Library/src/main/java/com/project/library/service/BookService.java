@@ -1,5 +1,6 @@
 package com.project.library.service;
 
+import com.project.library.dto.request.BookPatchRequestDto;
 import com.project.library.dto.request.BookPostRequestDto;
 import com.project.library.dto.response.BookResponseDto;
 import com.project.library.mapper.BookMapper;
@@ -55,8 +56,11 @@ public class BookService {
         return bookMapper.findByBookId(bookId);
     }
 
-    public BookResponseDto updateBook(final Long bookId, BookPostRequestDto request) {
-        bookMapper.updateBook(bookId, request);
+    public void updateBook(BookPatchRequestDto patchRequest) {
+        bookMapper.updateBook(patchRequest);
+    }
+
+    public BookResponseDto findById(Long bookId) {
         return bookMapper.findByBookId(bookId);
     }
 

@@ -1,23 +1,18 @@
-package com.project.library.dto.response;
+package com.project.library.dto.request;
 
-import lombok.Getter;
+import lombok.Data;
 
 import java.sql.Date;
 import java.time.LocalDateTime;
 
-/**
- * Book 기능 응답에 대한 DTO
- */
-@Getter
-public class BookResponseDto {
+@Data
+public class BookPatchRequestDto {
     private Long id;
     private String title; //책 제목
     private String writer; //책 지은이
     private Date publicateAt; //책 출판일
     private String status; //책 상태(대여 유/무, 입고 예정 등)
-    private int recommend;
-    private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
-    private boolean deleteStatus;
-
+    private int recommend; //책 추천수
+    private boolean deleteStatus; //책 삭제 상태(논리 삭제)
 }

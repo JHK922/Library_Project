@@ -5,7 +5,7 @@
         id
         , title
         , writer
-        , p_date
+        , publicateAt
         , status
         , recommend
         , createdAt
@@ -57,7 +57,7 @@
                   #{id}
         ,#{title}
         ,#{writer}
-        ,#{p_date}
+        ,#{publicateAt}
         ,#{status}
         ,0
         ,now()
@@ -66,14 +66,18 @@
 
     </insert>
 
-    <update id="updateBook" parameterType="com.project.library.dto.request.BookPostRequestDto">
+    <update id="updateBook" parameterType="com.project.library.dto.request.BookPatchRequestDto">
         UPDATE book
         SET
+--             값이 없으면 그냥 있던거 쓰고 있으면 바꾼다
+            id = #{id},
             title = #{title},
             writer = #{writer},
-            p_date = #{p_date},
+            publicateAt = #{publicateAt},
+            recommend = #{recommend},
             status = #{status},
-            modifiedAt = now()
+            modifiedAt = now(),
+            deleteStatus = #{deleteStatus}
         WHERE
             id = #{id}
     </update>
