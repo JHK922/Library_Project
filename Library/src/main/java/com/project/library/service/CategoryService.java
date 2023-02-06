@@ -14,8 +14,14 @@ public class CategoryService {
     public void saveCategory(CategoryPostRequestDto requestDto) {
         categoryMapper.saveCategory(requestDto);
     }
-
+    public void updateCategory(CategoryPostRequestDto requestDto) {
+        categoryMapper.updateCategory(requestDto);
+    }
     public CategoryResponseDto findByName(String name) {
         return categoryMapper.findByName(name);
+    }
+
+    public CategoryResponseDto findById(Long id) {
+        return categoryMapper.findById(id);
     }
 }
