@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.library.mapper.CategoryMapper">
+    <sql id="postColumns">
+        id
+        , name
+        , createdAt
+        , modifiedAt
+    </sql>
+    <!-- request Body 요청 데이터를 DB에 저장-->
+    <insert id="saveCategory" parameterType="com.project.library.dto.request.CategoryPostRequestDto">
+        INSERT INTO category (
+        <include refid="postColumns"></include>
+        ) VALUES (
+        #{id}
+        ,#{name}
+        ,now()
+        ,null
+        )
+
+    </insert>
+
+    <select id="findByName" parameterType="String" resultType="com.project.library.dto.response.CategoryResponseDto">
+        SELECT * FROM category where name=#{name};
+    </select>
+</mapper>
