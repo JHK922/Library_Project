@@ -55,4 +55,6 @@ public interface BookMapper {
 //    List<BookResponseDto> getBookWithTitle(String bookTitle);
 
     void updateBook(BookPatchRequestDto patchRequest);
+
+    List<BookResponseDto> findBook(String title, String writer);
 }
