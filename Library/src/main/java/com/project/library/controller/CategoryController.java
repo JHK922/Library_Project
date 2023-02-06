@@ -7,10 +7,7 @@ import com.project.library.service.CategoryService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/category")
@@ -18,10 +15,21 @@ import org.springframework.web.bind.annotation.RestController;
 public class CategoryController {
 
     private final CategoryService categoryService;
+
     @PostMapping
     public ResponseEntity saveCategory(@RequestBody CategoryPostRequestDto requestDto) {
         categoryService.saveCategory(requestDto);
         CategoryResponseDto responseDto = categoryService.findByName(requestDto.getName());
-        return new ResponseEntity<>(new SingleResponse<>(responseDto),HttpStatus.CREATED);
+        return new ResponseEntity<>(new SingleResponse<>(responseDto), HttpStatus.CREATED);
+    }
+
+    @PatchMapping("{category-id}")
+    public ResponseEntity updateCategory(@PathVariable("category-id")Long id, @RequestBody CategoryPostRequestDto requestDto) {
+        requestDto.setId(id);
+        categoryService.updateCategory(requestDto);
+
+        CategoryResponseDto responseDto = categoryService.findById(id);
+
+        return new ResponseEntity<>(new SingleResponse<>(responseDto), HttpStatus.OK);
     }
 }
