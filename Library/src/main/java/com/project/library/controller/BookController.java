@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.ResponseExtractor;
 
 import java.util.List;
 
@@ -33,52 +34,54 @@ public class BookController {
 
 
     /**
-     * 책 정보 저장
+     * 책 정보 저장 후 최근 저장한 동일한 책의 데이터를 반환
      *
      * @param requestDto
      * @return 저장된 책에 대한 정보를 반환
      */
     @PostMapping
-    public ResponseEntity insertBook(@RequestBody BookPostRequestDto requestDto) {
+    public ResponseEntity createBook(@RequestBody BookPostRequestDto requestDto) {
         bookService.saveBook(requestDto);
-        BookResponseDto bookResponseDto = bookService.getInfoBook(requestDto.getTitle());
-        log.info("Insert Book info -> {}", bookResponseDto);
+        BookResponseDto responseDto = bookService.getInfoBook(requestDto.getTitle());
+        log.info("Insert Book info -> {}", responseDto.getTitle());
 
-        return new ResponseEntity<>(bookResponseDto, HttpStatus.CREATED);
+        return new ResponseEntity<>(new SingleResponse<>(responseDto), HttpStatus.CREATED);
     }
 
-    @GetMapping("")
-    public ResponseEntity getBookList() {
-        log.info("Searching Book -> {}", bookService.getBookList());
-        List<BookResponseDto> bookResponseDtoList = bookService.getBookList();
+//    @GetMapping("")
+//    public ResponseEntity getBookList() {
+//        log.info("Searching Book -> {}", bookService.getBookList());
+//        List<BookResponseDto> bookResponseDtoList = bookService.getBookList();
+//
+//        return new ResponseEntity<>(new MultiResponse(bookResponseDtoList), HttpStatus.OK);
+//    }
 
-        return new ResponseEntity<>(new MultiResponse(bookResponseDtoList), HttpStatus.OK);
+    /**
+     * 책 title 혹은 writer로 조회
+     * @param title
+     * @param writer
+     * @return 책 정보를 모두 조회
+     * */
+
+    @GetMapping("/info")
+    public ResponseEntity getBooks(@RequestParam("title") String title,
+                                         @RequestParam("writer") String writer) {
+        List<BookResponseDto> responseDtos = bookService.findBook(title, writer);
+        log.info("Get Books info");
+
+        return new ResponseEntity<>(new MultiResponse<>(responseDtos), HttpStatus.OK);
     }
 
     /**
-     * 책 제목,  조회
-     *
-     * @param title, writer
+     * 책의 고유 id를 이용해 조회
+     * @param id
      * @return
      */
-    @GetMapping("/search")
-    public ResponseEntity getBookWithTitle(@RequestParam("title") String title,
-                                           @RequestParam("writer") String writer) {
-        if (!title.equals("null") && writer.equals("null")) {
-            List<BookResponseDto> responseDto = bookService.getInfoBookWithTitle(title);
-
-            log.info("title로 조회");
-            return new ResponseEntity<>(new MultiResponse(responseDto), HttpStatus.OK);
-        } else if (title.equals("null") && !writer.equals("null")) {
-            List<BookResponseDto> responseDto = bookService.getInfoBookWithWriter(writer);
-
-            log.info("writer 조회");
-            return new ResponseEntity<>(new MultiResponse(responseDto), HttpStatus.OK);
-        } else {
-            log.info("둘 다 Null");
-            List<BookResponseDto> bookResponseDtoList = bookService.getBookList();
-            return new ResponseEntity<>(new MultiResponse<>(bookResponseDtoList), HttpStatus.OK);
-        }
+    @GetMapping("/info/{id}")
+    public ResponseEntity getBook(@PathVariable("id")Long id) {
+        BookResponseDto responseDto = bookService.findById(id);
+        log.info("Get Book info -> {}", responseDto);
+        return new ResponseEntity<>(new SingleResponse<>(responseDto), HttpStatus.OK);
     }
 
     /**

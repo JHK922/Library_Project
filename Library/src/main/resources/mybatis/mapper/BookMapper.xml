@@ -15,46 +15,77 @@
 
     <!-- Book 전체 조회 페이징 추가 필요 (정렬 순서) -->
     <select id="getBookList" resultType="com.project.library.dto.response.BookResponseDto">
-        SELECT * FROM book;
+        SELECT *
+        FROM book;
     </select>
 
-<!--    &lt;!&ndash; book 테이블에서 book title로 조회   &ndash;&gt;-->
-<!--    <select id="findByTitle" resultType="com.project.library.dto.response.BookResponseDto">-->
-<!--        SELECT * FROM book WHERE b_title=#{b_title} ORDER BY b_id;-->
-<!--    </select>-->
+    <!--    &lt;!&ndash; book 테이블에서 book title로 조회   &ndash;&gt;-->
+    <!--    <select id="findByTitle" resultType="com.project.library.dto.response.BookResponseDto">-->
+    <!--        SELECT * FROM book WHERE b_title=#{b_title} ORDER BY b_id;-->
+    <!--    </select>-->
 
     <!-- book 테이블에서 book title로 조회, 고유 id 기준 가장 최근 데이터를 조회   -->
     <select id="findByTitle" resultType="com.project.library.dto.response.BookResponseDto">
-        SELECT * FROM book WHERE title=#{title} ORDER BY id DESC limit 1;
+
+        SELECT * FROM book
+        where title = #{title} ORDER BY id DESC LIMIT 1;
     </select>
-    <!-- book 테이블에서 book title로 조회, 고유 id 기준 가장 최근 데이터를 조회   -->
+    <!-- book 테이블에서 book title로 조회   -->
     <select id="findsByTitle" resultType="com.project.library.dto.response.BookResponseDto">
-        SELECT * FROM book WHERE title=#{title} ORDER BY id DESC;
+        SELECT *
+        FROM book
+        WHERE title = #{title}
+        ORDER BY id DESC;
     </select>
 
     <!-- Writer로 조회, 고유 id 기준 내림차순 정렬   -->
     <select id="findByWriter" resultType="com.project.library.dto.response.BookResponseDto">
-        SELECT * FROM book WHERE writer=#{writer} ORDER BY id DESC;
+        SELECT *
+        FROM book
+        WHERE writer = #{writer}
+        ORDER BY id DESC;
     </select>
     <!-- Book 고유키 id로 조회   -->
     <select id="findByBookId" resultType="com.project.library.dto.response.BookResponseDto">
-        SELECT * FROM book WHERE id = #{id};
+        SELECT *
+        FROM book
+        WHERE id = #{id};
     </select>
 
-<!--    <select id="findByCategoryId" resultType="com.project.library.dto.response.BookResponseDto">-->
-<!--        SELECT * FROM book where-->
-<!--    </select>-->
+    <!-- Book 고유키 id로 조회   -->
+    <select id="findTest" resultType="com.project.library.dto.response.BookResponseDto">
+        <bind name="subTitle" value="'%'+ title +'%'"/>
+        <bind name="subWriter" value="'%'+ writer +'%'"/>
+        SELECT * FROM book
+        where 1=1
+        <if test='subTitle != null and subTitle != ""'>
+            -- title이 "null"이 아니고 공백이 아니면 subtitle이 포함된 행을 불러온다
+            and title like #{subTitle}
+        </if>
+        <if test='subWriter != null and subWriter != ""'>
+            -- writer이 "null"이 아니고 공백이 아니면 subWriter이 포함된 행을 불러온다
+            and writer like #{subWriter}
+        </if>
+
+        ORDER BY id DESC;
+    </select>
+
+    <!--    <select id="findByCategoryId" resultType="com.project.library.dto.response.BookResponseDto">-->
+    <!--        SELECT * FROM book where-->
+    <!--    </select>-->
 
     <update id="deleteBook" parameterType="Long">
-        UPDATE book SET deleteStatus = false WHERE id = #{id}
+        UPDATE book
+        SET deleteStatus = false
+        WHERE id = #{id}
     </update>
 
     <!-- request Body 요청 데이터를 DB에 저장-->
     <insert id="saveBook" parameterType="com.project.library.dto.request.BookPostRequestDto">
         INSERT INTO book (
-                          <include refid="postColumns"></include>
+        <include refid="postColumns"></include>
         ) VALUES (
-                  #{id}
+        #{id}
         ,#{title}
         ,#{writer}
         ,#{publicateAt}
@@ -70,16 +101,15 @@
         UPDATE book
         SET
 --             값이 없으면 그냥 있던거 쓰고 있으면 바꾼다
-            id = #{id},
-            title = #{title},
-            writer = #{writer},
-            publicateAt = #{publicateAt},
-            recommend = #{recommend},
-            status = #{status},
-            modifiedAt = now(),
-            deleteStatus = #{deleteStatus}
-        WHERE
-            id = #{id}
+id           = #{id},
+title        = #{title},
+writer       = #{writer},
+publicateAt  = #{publicateAt},
+recommend    = #{recommend},
+status       = #{status},
+modifiedAt   = now(),
+deleteStatus = #{deleteStatus}
+        WHERE id = #{id}
     </update>
 
 
