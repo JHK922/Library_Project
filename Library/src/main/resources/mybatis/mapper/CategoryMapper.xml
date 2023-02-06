@@ -20,7 +20,20 @@
 
     </insert>
 
+    <update id="updateCategory" parameterType="com.project.library.dto.request.CategoryPostRequestDto">
+        UPDATE category
+        SET
+            id = #{id},
+            name = #{name},
+            modifiedAt = now()
+        WHERE id=#{id}
+    </update>
+
     <select id="findByName" parameterType="String" resultType="com.project.library.dto.response.CategoryResponseDto">
         SELECT * FROM category where name=#{name};
+    </select>
+
+    <select id="findById" parameterType="Long" resultType="com.project.library.dto.response.CategoryResponseDto">
+        SELECT * FROM category where id=#{id};
     </select>
 </mapper>
