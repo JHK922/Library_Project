@@ -6,8 +6,11 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface CategoryMapper {
-    void saveCategory(CategoryPostRequestDto postRequestDto);
+    void saveCategory(CategoryPostRequestDto requestDto);
 
+    void updateCategory(CategoryPostRequestDto requestDto);
     CategoryResponseDto findByName(String name);
+
+    CategoryResponseDto findById(Long id);
 
 }
