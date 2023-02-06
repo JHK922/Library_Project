@@ -43,13 +43,6 @@ public class BookService {
     public List<BookResponseDto> getInfoBookWithWriter(String bookWriter) {
         return bookMapper.findByWriter(bookWriter);
     }
-    public List<BookResponseDto> getBookList() {
-        return bookMapper.getBookList();
-    }
-
-//    public List<BookResponseDto> getBookWithCategory(Long categoryId) {
-//        return bookMapper.findByCategoryId(categoryId);
-//    }
 
     public BookResponseDto deleteBook(Long bookId) {
         bookMapper.deleteBook(bookId);
@@ -62,6 +55,10 @@ public class BookService {
 
     public BookResponseDto findById(Long bookId) {
         return bookMapper.findByBookId(bookId);
+    }
+
+    public List<BookResponseDto> findBook(String title, String writer) {
+        return bookMapper.findBook(title, writer);
     }
 
 }
