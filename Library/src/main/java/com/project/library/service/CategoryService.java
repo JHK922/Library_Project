@@ -6,6 +6,8 @@ import com.project.library.mapper.CategoryMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CategoryService {
@@ -20,8 +22,13 @@ public class CategoryService {
     public CategoryResponseDto findByName(String name) {
         return categoryMapper.findByName(name);
     }
-
     public CategoryResponseDto findById(Long id) {
         return categoryMapper.findById(id);
+    }
+    public List<CategoryResponseDto> findAll() {
+        return categoryMapper.findAll();
+    }
+    public CategoryResponseDto deleteCategory(Long id) {
+        return categoryMapper.deleteCategory(id);
     }
 }
