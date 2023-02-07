@@ -2,6 +2,7 @@ package com.project.library.controller;
 
 import com.project.library.dto.request.MemberRequest;
 import com.project.library.dto.response.MemberResponse;
+import com.project.library.dto.response.NoticeResponse;
 import com.project.library.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,21 +37,27 @@ public class MemberController {
 
     // 회원정보 등록(저장)
     @PostMapping("")
-    public Long saveMember(@RequestBody MemberRequest request) {
-        return memberService.saveMember(request);
+    public MemberResponse saveMember(@RequestBody MemberRequest request) {
+        memberService.saveMember(request);
+        MemberResponse response = memberService.findById(request.getId());
+        return response;
     }
 
     // 회원정보 수정
     @PutMapping("/{id}")
-    public void updateMember(@PathVariable Long id, @RequestBody MemberRequest request) {
+    public MemberResponse updateMember(@PathVariable Long id, @RequestBody MemberRequest request) {
         request.setId(id);
-        memberService.updateMember(id, request);
+        memberService.updateMember(request);
+        MemberResponse response = memberService.findById(id);
+        return response;
+
     }
 
     // 회원정보 삭제(논리적 삭제)
     @DeleteMapping("/{id}")
-    public void deleteMember(@PathVariable Long id) {
+    public MemberResponse deleteMember(@PathVariable Long id) {
         memberService.deleteMember(id);
-//        log.info("member status -> {}", memberService.find(id).getDeleteYN());
+        MemberResponse response = memberService.findById(id);
+        return response;
     }
 }

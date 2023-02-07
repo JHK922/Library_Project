@@ -22,9 +22,8 @@ public class MemberService {
      * @param request
      * @return Generated PK
      */
-    public Long saveMember(final MemberRequest request) {
+    public void saveMember(MemberRequest request) {
         memberMapper.saveMember(request);
-        return request.getId();
     }
 
     /**
@@ -58,9 +57,8 @@ public class MemberService {
      * @param request - 회원정보
      * @return PK
      */
-    public Long updateMember(Long id, MemberRequest request) {
+    public void updateMember(MemberRequest request) {
         memberMapper.updateMember(request);
-        return request.getId();
     }
 
     /**
@@ -68,9 +66,9 @@ public class MemberService {
      * @param id - PK
      * @return PK
      */
-    public Long deleteMember(final Long id) {
+    public void deleteMember(final Long id) {
         memberMapper.deleteById(id);
-        return id;
+
     }
 }
 
