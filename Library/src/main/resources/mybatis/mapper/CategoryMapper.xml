@@ -36,4 +36,17 @@
     <select id="findById" parameterType="Long" resultType="com.project.library.dto.response.CategoryResponseDto">
         SELECT * FROM category where id=#{id};
     </select>
+
+    <select id="findAll" resultType="com.project.library.dto.response.CategoryResponseDto">
+        SELECT id, name, createdAt, modifiedAt
+        FROM category DESC;
+    </select>
+
+    <update id="deleteCategory" parameterType="com.project.library.dto.request.CategoryPostRequestDto">
+        UPDATE category
+        SET
+            deleteStatus = 'N',
+            modifiedAt = now()
+        WHERE id = #{id}
+    </update>
 </mapper>
