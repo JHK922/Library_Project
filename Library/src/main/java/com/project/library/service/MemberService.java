@@ -11,6 +11,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor // 생성자 자동 생성
+@Transactional
 public class MemberService {
 
 
@@ -21,8 +22,7 @@ public class MemberService {
      * @param request
      * @return Generated PK
      */
-    @Transactional
-    public Long save(final MemberRequest request) {
+    public Long saveMember(final MemberRequest request) {
         memberMapper.saveMember(request);
         return request.getId();
     }
@@ -40,8 +40,17 @@ public class MemberService {
      * @param id - PK
      * @return 지정 회원정보
      */
-    public MemberResponse find(final Long id) {
+    public MemberResponse findById(Long id) {
         return memberMapper.findById(id);
+    }
+
+    /**
+     * 회원정보 지정 조회
+     * @param name
+     * @return 지정 회원정보
+     */
+    public MemberResponse findByName(String name) {
+        return memberMapper.findByName(name);
     }
 
     /**
@@ -49,7 +58,7 @@ public class MemberService {
      * @param request - 회원정보
      * @return PK
      */
-    public Long update(MemberRequest request) {
+    public Long updateMember(Long id, MemberRequest request) {
         memberMapper.updateMember(request);
         return request.getId();
     }
@@ -59,7 +68,7 @@ public class MemberService {
      * @param id - PK
      * @return PK
      */
-    public Long delete(final Long id) {
+    public Long deleteMember(final Long id) {
         memberMapper.deleteById(id);
         return id;
     }
