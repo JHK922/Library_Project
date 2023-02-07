@@ -19,14 +19,9 @@
         FROM book;
     </select>
 
-    <!--    &lt;!&ndash; book 테이블에서 book title로 조회   &ndash;&gt;-->
-    <!--    <select id="findByTitle" resultType="com.project.library.dto.response.BookResponseDto">-->
-    <!--        SELECT * FROM book WHERE b_title=#{b_title} ORDER BY b_id;-->
-    <!--    </select>-->
 
     <!-- book 테이블에서 book title로 조회, 고유 id 기준 가장 최근 데이터를 조회   -->
     <select id="findByTitle" resultType="com.project.library.dto.response.BookResponseDto">
-
         SELECT * FROM book
         where title = #{title} ORDER BY id DESC LIMIT 1;
     </select>
@@ -52,8 +47,8 @@
         WHERE id = #{id};
     </select>
 
-    <!-- Book 고유키 id로 조회   -->
-    <select id="findTest" resultType="com.project.library.dto.response.BookResponseDto">
+    <!-- Book title, writer로 조회   -->
+    <select id="findBook" resultType="com.project.library.dto.response.BookResponseDto">
         <bind name="subTitle" value="'%'+ title +'%'"/>
         <bind name="subWriter" value="'%'+ writer +'%'"/>
         SELECT * FROM book
@@ -85,30 +80,31 @@
         INSERT INTO book (
         <include refid="postColumns"></include>
         ) VALUES (
-        #{id}
-        ,#{title}
-        ,#{writer}
-        ,#{publicateAt}
-        ,#{status}
-        ,0
-        ,now()
-        ,null
-        ,true)
+                #{id}
+                ,#{title}
+                ,#{writer}
+                ,#{publicateAt}
+                ,#{status}
+                ,0
+                ,now()
+                ,null
+                ,true
+            )
 
     </insert>
 
+    <!--  Book Date Update  -->
     <update id="updateBook" parameterType="com.project.library.dto.request.BookPatchRequestDto">
         UPDATE book
         SET
---             값이 없으면 그냥 있던거 쓰고 있으면 바꾼다
-id           = #{id},
-title        = #{title},
-writer       = #{writer},
-publicateAt  = #{publicateAt},
-recommend    = #{recommend},
-status       = #{status},
-modifiedAt   = now(),
-deleteStatus = #{deleteStatus}
+            id           = #{id},
+            title        = #{title},
+            writer       = #{writer},
+            publicateAt  = #{publicateAt},
+            recommend    = #{recommend},
+            status       = #{status},
+            modifiedAt   = now(),
+            deleteStatus = #{deleteStatus}
         WHERE id = #{id}
     </update>
 
