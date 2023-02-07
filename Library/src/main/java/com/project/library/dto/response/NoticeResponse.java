@@ -9,7 +9,7 @@ public class NoticeResponse {
     private long id;                  // PK
     private String title;             // 제목
     private String content;           // 내용
-    private LocalDateTime createdt;   // 작성일
+    private LocalDateTime createdAt;   // 작성일
     private LocalDateTime modifiedAt; // 수정일
     private long memberId;            // FK
 }

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.library.mapper.NoticeMapper">
+
+    <!-- 테이블 전체 컬럼 -->
+    <sql id="noticeAll">
+        id, title, content, createdAt, modifiedAt, memberId
+    </sql>
+
+    <!-- id는 @Mapper에서 정의한 이름과 동일해야 함 parameterType은 참고 할 자료를 넣음-->
+
+    <!-- 게시글 저장 -->
+    <insert id="saveNotice" parameterType="com.project.library.dto.request.NoticeRequest"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO notice (
+            id, title, content, createdAt, memberId
+        ) VALUES (
+            #{id},
+            #{title},
+            #{content},
+            NOW(),
+            #{memberId}
+        );
+    </insert>
+
+</mapper>
