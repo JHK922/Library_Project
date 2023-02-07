@@ -7,7 +7,7 @@
 
     <!-- 테이블 전체 컬럼 -->
     <sql id="noticeAll">
-        id, title, content, createdAt, modifiedAt, memberId
+        id, title, content, createdAt, modifiedAt, deleteYN, memberId
     </sql>
 
     <!-- id는 @Mapper에서 정의한 이름과 동일해야 함 parameterType은 참고 할 자료를 넣음-->
@@ -16,12 +16,13 @@
     <insert id="saveNotice" parameterType="com.project.library.dto.request.NoticeRequest"
             useGeneratedKeys="true" keyProperty="id">
         INSERT INTO notice (
-            id, title, content, createdAt, memberId
+            id, title, content, createdAt, deleteYN, memberId
         ) VALUES (
             #{id},
             #{title},
             #{content},
             NOW(),
+            false,
             #{memberId}
         );
     </insert>
@@ -64,4 +65,14 @@
         WHERE
             id = #{id}
     </update>
+
+    <!-- 게시글 삭제 -->
+    <delete id="deleteById" parameterType="long">
+        UPDATE
+            notice
+        SET
+            deleteYN = true
+        WHERE
+            id = #{id}
+    </delete>
 </mapper>
