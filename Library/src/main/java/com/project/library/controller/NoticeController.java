@@ -1,7 +1,6 @@
 package com.project.library.controller;
 
 import com.project.library.dto.request.NoticeRequest;
-import com.project.library.dto.response.MemberResponse;
 import com.project.library.dto.response.NoticeResponse;
 import com.project.library.service.NoticeService;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +17,10 @@ public class NoticeController {
 
     // 게시글 등록
     @PostMapping("")
-    public Long saveNotice(@RequestBody NoticeRequest request) {
-        return noticeService.saveNotice(request);
+    public NoticeResponse saveNotice(@RequestBody NoticeRequest request) {
+        noticeService.saveNotice(request);
+        NoticeResponse response = noticeService.findById(request.getId());
+        return response;
     }
 
     // 게시글 전체 조회
@@ -28,16 +29,26 @@ public class NoticeController {
         return noticeService.findAll();
     }
 
-    // 회원정보 지정 조회 (PK)
+    // 게시글 지정 조회 (PK)
     @GetMapping("/{id}")
     public NoticeResponse findById(@PathVariable Long id) {
         return noticeService.findById(id);
     }
 
-    // 회원정보 지정 조회 (name)
+    // 게시글 지정 조회 (meberId)
     @GetMapping ("/find")
     public NoticeResponse findByMemberId(@RequestParam Long memberId) {
         return noticeService.findByMemberId(memberId);
+    }
+
+    // 게시글 업데이트
+    @PutMapping("/{id}")
+    public NoticeResponse updateNotice(@PathVariable Long id, @RequestBody NoticeRequest request) {
+        request.setId(id);
+        noticeService.updateNotice(request);
+        NoticeResponse response = noticeService.findById(id);
+        return response;
+
     }
 
 
