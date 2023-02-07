@@ -26,4 +26,32 @@
         );
     </insert>
 
+    <!-- 게시글 지정 조회 -->
+    <select id="findById" parameterType="long" resultType="com.project.library.dto.response.NoticeResponse">
+        SELECT
+            <include refid="noticeAll" />
+        FROM
+            notice
+        WHERE
+            id = #{id}
+    </select>
+
+    <!-- 게시글 지정 조회 -->
+    <select id="findByMemberId" parameterType="long" resultType="com.project.library.dto.response.NoticeResponse">
+        SELECT
+            <include refid="noticeAll" />
+        FROM
+            notice
+        WHERE
+            memberId = #{memberId}
+    </select>
+
+    <!-- 게시글 전체 조회 -->
+    <select id="findAll" resultType="com.project.library.dto.response.NoticeResponse">
+        SELECT *
+        FROM
+            notice
+    </select>
+
+
 </mapper>

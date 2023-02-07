@@ -1,10 +1,13 @@
 package com.project.library.service;
 
 import com.project.library.dto.request.NoticeRequest;
+import com.project.library.dto.response.NoticeResponse;
 import com.project.library.mapper.NoticeMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor // 생성자 자동 생성
@@ -22,6 +25,32 @@ public class NoticeService {
     public Long saveNotice(final NoticeRequest request) {
         noticeMapper.saveNotice(request);
         return request.getId();
+    }
+
+    /**
+     * 게시글 전체 조회
+     * @return 전체 회원정보
+     */
+    public List<NoticeResponse> findAll() {
+        return noticeMapper.findAll();
+    }
+
+    /**
+     * 게시글 지정 조회
+     * @param id - PK
+     * @return 지정 회원정보
+     */
+    public NoticeResponse findById(Long id) {
+        return noticeMapper.findById(id);
+    }
+
+    /**
+     * 게시글 지정 조회
+     * @param memberId
+     * @return 지정 회원정보
+     */
+    public NoticeResponse findByMemberId(Long memberId) {
+        return noticeMapper.findByMemberId(memberId);
     }
 }
 
