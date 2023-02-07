@@ -22,28 +22,35 @@ public class MemberController {
         return memberService.findAll();
     }
 
-    // 회원정보 지정 조회
+    // 회원정보 지정 조회 (PK)
     @GetMapping("/{id}")
-    public MemberResponse findById(@PathVariable long id) {
-        return memberService.find(id);
+    public MemberResponse findById(@PathVariable Long id) {
+        return memberService.findById(id);
+    }
+
+    // 회원정보 지정 조회 (name)
+    @GetMapping ("/find")
+    public MemberResponse findByName(@RequestParam String name) {
+        return memberService.findByName(name);
     }
 
     // 회원정보 등록(저장)
-    @PostMapping("")
+    @PostMapping("/{name}")
     public Long saveMember(@RequestBody MemberRequest request) {
-        return memberService.save(request);
+        return memberService.saveMember(request);
     }
 
     // 회원정보 수정
-    @PutMapping("")
-    public void updateMember(@RequestBody MemberRequest request) {
-        memberService.update(request);
+    @PutMapping("/{id}")
+    public void updateMember(@PathVariable Long id, @RequestBody MemberRequest request) {
+        request.setId(id);
+        memberService.updateMember(id, request);
     }
 
     // 회원정보 삭제(논리적 삭제)
     @DeleteMapping("/{id}")
     public void deleteMember(@PathVariable Long id) {
-        memberService.delete(id);
+        memberService.deleteMember(id);
 //        log.info("member status -> {}", memberService.find(id).getDeleteYN());
     }
 }
