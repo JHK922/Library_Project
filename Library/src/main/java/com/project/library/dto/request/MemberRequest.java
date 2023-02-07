@@ -1,6 +1,7 @@
 package com.project.library.dto.request;
 
 import lombok.AccessLevel;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -10,7 +11,7 @@ import java.util.Date;
  * 회원정보 생성, 수정에 사용 될 요청 클래스
  */
 
-@Getter
+@Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MemberRequest {
 

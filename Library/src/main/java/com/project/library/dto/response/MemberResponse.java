@@ -1,5 +1,6 @@
 package com.project.library.dto.response;
 
+import lombok.Data;
 import lombok.Getter;
 
 import java.util.Date;
@@ -8,7 +9,7 @@ import java.util.Date;
  * 회원정보 조회에 사용될 응답용 클래스
  */
 
-@Getter
+@Data
 public class MemberResponse {
 
     private long id;            // PK
