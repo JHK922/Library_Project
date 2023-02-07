@@ -2,6 +2,7 @@ package com.project.library.controller;
 
 import com.project.library.dto.request.CategoryPostRequestDto;
 import com.project.library.dto.response.CategoryResponseDto;
+import com.project.library.response.MultiResponse;
 import com.project.library.response.SingleResponse;
 import com.project.library.service.CategoryService;
 import lombok.AllArgsConstructor;
@@ -31,5 +32,21 @@ public class CategoryController {
         CategoryResponseDto responseDto = categoryService.findById(id);
 
         return new ResponseEntity<>(new SingleResponse<>(responseDto), HttpStatus.OK);
+    }
+
+    @GetMapping("/{category-id}")
+    public ResponseEntity getCategory(@PathVariable("category-id") Long id) {
+        return new ResponseEntity<>(new SingleResponse<>(categoryService.findById(id)), HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity getCategorys() {
+        return new ResponseEntity<>(new MultiResponse<>(categoryService.findAll()), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{category-id}")
+    public ResponseEntity deleteCategory(@PathVariable("category-id") Long id) {
+
+        return new ResponseEntity<>(new SingleResponse<>(categoryService.deleteCategory(id)), HttpStatus.OK);
     }
 }
