@@ -48,7 +48,13 @@ public class NoticeController {
         noticeService.updateNotice(request);
         NoticeResponse response = noticeService.findById(id);
         return response;
+    }
 
+    @DeleteMapping("/{id}")
+    public NoticeResponse deleteNotice(@PathVariable Long id) {
+        noticeService.deleteNotice(id);
+        NoticeResponse response = noticeService.findById(id);
+        return response;
     }
 
 

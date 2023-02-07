@@ -60,5 +60,15 @@ public class NoticeService {
     public void updateNotice(NoticeRequest request) {
         noticeMapper.updateNotice(request);
     }
+
+    /**
+     * 게시글 삭제
+     * @param id - PK
+     * @return PK
+     */
+    public void deleteNotice(Long id) {
+        noticeMapper.deleteById(id);
+    }
+
 }
 
