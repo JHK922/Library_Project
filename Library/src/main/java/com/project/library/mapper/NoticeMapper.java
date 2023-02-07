@@ -35,12 +35,17 @@ public interface NoticeMapper {
      */
     NoticeResponse findByMemberId(Long memberId);
 
-
     /**
      * 게시글 수정
      * @param request
      */
     void updateNotice(NoticeRequest request);
+
+    /**
+     * 게시글 삭제
+     * @param id - PK
+     */
+    void deleteById(Long id);
 
 
 
