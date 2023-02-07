@@ -20,6 +20,11 @@ public interface MemberMapper {
     void saveMember(MemberRequest request);
 
     /**
+     * 전체 회원정보 조회
+     */
+    List<MemberResponse> findAll();
+
+    /**
      * 해당 회원정보 조회
      * @param id - PK
      * @return 해당 회원 정보
@@ -27,9 +32,11 @@ public interface MemberMapper {
     MemberResponse findById(Long id);
 
     /**
-     * 전체 회원정보 조회
+     * 해당 회원정보 조회
+     * @param name - PK
+     * @return 해당 회원 정보
      */
-    List<MemberResponse> findAll();
+    MemberResponse findByName(String name);
 
     /**
      * 회원정보 수정
