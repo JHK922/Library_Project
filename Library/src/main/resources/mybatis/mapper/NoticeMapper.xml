@@ -53,5 +53,15 @@
             notice
     </select>
 
-
+    <!-- 게시글 수정 -->
+    <update id="updateNotice" parameterType="com.project.library.dto.request.NoticeRequest">
+        UPDATE
+            notice
+        SET
+            title = #{title},
+            content = #{content},
+            modifiedAt = NOW()
+        WHERE
+            id = #{id}
+    </update>
 </mapper>

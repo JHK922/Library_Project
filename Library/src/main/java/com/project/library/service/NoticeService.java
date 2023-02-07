@@ -22,9 +22,8 @@ public class NoticeService {
      * @param request
      * @return Generated PK
      */
-    public Long saveNotice(final NoticeRequest request) {
+    public void saveNotice(NoticeRequest request) {
         noticeMapper.saveNotice(request);
-        return request.getId();
     }
 
     /**
@@ -51,6 +50,15 @@ public class NoticeService {
      */
     public NoticeResponse findByMemberId(Long memberId) {
         return noticeMapper.findByMemberId(memberId);
+    }
+
+    /**
+     * 게시글 수정
+     * @param request
+     * @return PK
+     */
+    public void updateNotice(NoticeRequest request) {
+        noticeMapper.updateNotice(request);
     }
 }
 

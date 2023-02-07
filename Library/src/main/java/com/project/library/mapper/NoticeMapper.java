@@ -36,5 +36,12 @@ public interface NoticeMapper {
     NoticeResponse findByMemberId(Long memberId);
 
 
+    /**
+     * 게시글 수정
+     * @param request
+     */
+    void updateNotice(NoticeRequest request);
+
+
 
 }
