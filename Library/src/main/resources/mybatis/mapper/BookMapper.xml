@@ -71,7 +71,8 @@
 
     <update id="deleteBook" parameterType="Long">
         UPDATE book
-        SET deleteStatus = false
+        SET deleteStatus = false,
+            modifiedAt = now()
         WHERE id = #{id}
     </update>
 
