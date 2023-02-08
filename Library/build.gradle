@@ -20,12 +20,17 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.0'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // mybatis와 관련된 dependency (jdbc, mybatis)
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.0'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+
+
 }
 
 tasks.named('test') {
