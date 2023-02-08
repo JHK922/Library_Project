@@ -5,18 +5,13 @@
 
 <mapper namespace="com.project.library.mapper.MemberMapper">
 
-    <!-- 테이블 전체 컬럼 -->
-    <sql id="memberAll">
-        id, email, password1, name, birth, address, phone, createAt, deleteYN
-    </sql>
-
     <!-- id는 @Mapper에서 정의한 이름과 동일해야 함 parameterType은 참고 할 자료를 넣음-->
 
     <!-- 회원정보 저장 -->
     <insert id="saveMember" parameterType="com.project.library.dto.request.MemberRequest"
     useGeneratedKeys="true" keyProperty="id">
         INSERT INTO member (
-            id, email, password1, password2, name, birth, address, phone, createAt, deleteYN
+            id, email, password1, password2, name, birth, address, phone, createdAt, deleteYn, roleId
         ) VALUES (
             #{id},
             #{email},
@@ -27,36 +22,52 @@
             #{address},
             #{phone},
             NOW(),
-            false
+            false,
+            1
         );
     </insert>
 
     <!-- 회원정보 지정 조회 -->
     <select id="findById"  resultType="com.project.library.dto.response.MemberResponse">
         SELECT
-            <include refid="memberAll" />
+            a.email, a.name, a.birth, a.address, a.phone, a.createdAt,
+            b.roleType
         FROM
-            member
+            member as a
+        INNER JOIN
+            role as b
+        ON
+            a.roleId = b.id
         WHERE
-            id = #{id}
+            a.id = #{id}
     </select>
 
     <!-- 회원정보 지정 조회 -->
     <select id="findByName"  resultType="com.project.library.dto.response.MemberResponse">
         SELECT
-            <include refid="memberAll" />
+            a.email, a.name, a.birth, a.address, a.phone, a.createdAt,
+            b.roleType
         FROM
-            member
+            member as a
+        INNER JOIN
+            role as b
+        ON
+            a.roleId = b.id
         WHERE
-            name = #{name}
+            a.name = #{name}
     </select>
 
     <!-- 회원정보 전체 조회 -->
     <select id="findAll" resultType="com.project.library.dto.response.MemberResponse">
         SELECT
-            <include refid="memberAll" />
+            a.email, a.name, a.birth, a.address, a.phone, a.createdAt,
+            b.roleType
         FROM
-            member
+            member as a
+        INNER JOIN
+            role as b
+        ON
+            a.roleId = b.id
     </select>
 
     <!-- 회원정보 수정 -->
@@ -78,9 +89,11 @@
         UPDATE
             member
         SET
-            deleteYN = true
+            deleteYn = true
         WHERE
             id = #{id}
     </delete>
+
+
 </mapper>
 
