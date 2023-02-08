@@ -23,5 +23,8 @@ public class MemberRequest {
     private int birth;          // 생년월일
     private String address;     // 주소
     private String phone;       // 핸드폰번호
-    private Date createAt;      // 가입날짜
+    private Date createdAt;      // 가입날짜
+    private boolean deleteYn;   // 삭제 여부
+    private long roleId;        // FK
+    private String roleType;    // 권한(join)
 }
