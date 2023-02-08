@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.Getter;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 회원정보 조회에 사용될 응답용 클래스
@@ -19,7 +20,10 @@ public class MemberResponse {
     private int birth;          // 생년월일
     private String address;     // 주소
     private String phone;       // 핸드폰번호
-    private Date createAt;      // 가입 날짜
-    private boolean deleteYN;   // 삭제여부
+    private Date createdAt;      // 가입 날짜
+    private boolean deleteYn;   // 삭제여부
+    private long roleId;        // FK
+
+    private String roleType;    // 권한(join)
 
 }
