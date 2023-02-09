@@ -20,10 +20,8 @@ public class BookService {
      * @param requestDto
      * @return
      */
-    public void saveBook(BookPostRequestDto requestDto) {
-
-        bookMapper.saveBook(requestDto);
-
+    public Long saveBook(BookPostRequestDto requestDto) {
+        return bookMapper.saveBook(requestDto);
     }
 
     /**
@@ -34,14 +32,10 @@ public class BookService {
         return bookMapper.findByTitle(bookTitle);
     }
 
-    public List<BookResponseDto> getInfoBookWithTitle(String title) {
-        return bookMapper.findsByTitle(title);
-    }
-    /**
-     * @return
-     */
-    public List<BookResponseDto> getInfoBookWithWriter(String bookWriter) {
-        return bookMapper.findByWriter(bookWriter);
+    public List<BookResponseDto> getBookByCategoryId(Long id) {
+        return bookMapper.findByCategoryId(id);
+//        return
+
     }
 
     public BookResponseDto deleteBook(Long bookId) {
