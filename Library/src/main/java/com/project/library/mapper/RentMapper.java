@@ -20,9 +20,21 @@ public interface RentMapper {
     RentResponse findById(Long id);
 
     /**
-     * 대여버튼을 누름과 동시에 book.status값 update
+     * 대여버튼을 누름과 동시에 book.status값 '대여불가'
      * @param request
      */
-    void updateBookStatus(RentRequest request);
+    void updateBookStatusFalse(RentRequest request);
+
+    /**
+     * 반납 (정보 업데이트)
+     * @param id - PK
+     */
+    void updateReturn(Long id);
+
+    /**
+     * 반납 버튼을 누름과 동시에 book.status값 '대여가능'
+     * @param id - PK
+     */
+    void updateBookStatusTrue(Long id);
 
 }
