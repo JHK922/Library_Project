@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.library.mapper.RentMapper">
+
+    <!-- id는 @Mapper에서 정의한 이름과 동일해야 함 parameterType은 참고 할 자료를 넣음-->
+
+    <!-- 대여 (정보 저장) -->
+    <insert id="saveRent" parameterType="com.project.library.dto.request.RentRequest"
+    useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO rent (
+            rentDate, returnDate, periodDate, memberId, bookId
+        ) VALUES (
+            NOW(),
+            DATE_ADD(NOW(), INTERVAL 14 DAY),
+            14,
+            #{memberId},
+            #{bookId}
+        )
+    </insert>
+
+    <!-- 대여 정보 PK로 받아오기 -->
+    <select id="findById" resultType="com.project.library.dto.response.RentResponse">
+        SELECT
+            r.id, r.rentDate, r.returnDate, r.periodDate, r.memberId, b.title, b.status
+        FROM
+            rent as r
+        INNER JOIN
+            book as b
+        ON
+            r.bookId = b.id
+        WHERE
+            r.id = #{id}
+    </select>
+
+    <!-- 대여버튼을 누름과 동시에 book.status값 update -->
+    <update id="updateBookStatus" parameterType="long">
+        UPDATE
+            rent as r
+        INNER JOIN
+            book as b
+        ON
+            r.bookId = b.id
+        SET
+            b.status = '대여불가'
+        WHERE
+            r.bookId = #{bookId} AND b.status = '대여가능'
+    </update>
+
+</mapper>
+
