@@ -11,11 +11,10 @@
     <insert id="saveRent" parameterType="com.project.library.dto.request.RentRequest"
     useGeneratedKeys="true" keyProperty="id">
         INSERT INTO rent (
-            rentDate, returnDate, periodDate, memberId, bookId
+            rentDate, expactedReturnDate, memberId, bookId
         ) VALUES (
             NOW(),
             DATE_ADD(NOW(), INTERVAL 14 DAY),
-            14,
             #{memberId},
             #{bookId}
         )
@@ -24,7 +23,7 @@
     <!-- 대여 정보 PK로 받아오기 -->
     <select id="findById" resultType="com.project.library.dto.response.RentResponse">
         SELECT
-            r.id, r.rentDate, r.returnDate, r.periodDate, r.memberId, b.title, b.status
+            r.id, r.rentDate, r.expactedReturnDate, r.returnDate, r.memberId, b.title, b.status
         FROM
             rent as r
         INNER JOIN
@@ -35,8 +34,8 @@
             r.id = #{id}
     </select>
 
-    <!-- 대여버튼을 누름과 동시에 book.status값 update -->
-    <update id="updateBookStatus" parameterType="com.project.library.dto.request.RentRequest">
+    <!-- 대여버튼을 누름과 동시에 book.status값 대여불가 -->
+    <update id="updateBookStatusFalse" parameterType="com.project.library.dto.request.RentRequest">
         UPDATE
             rent as r
         INNER JOIN
@@ -49,9 +48,32 @@
             r.bookId = #{bookId} AND b.status = '대여가능'
     </update>
 
-    <insert id="returnSave" parameterType="com.project.library.dto.request.RentRequest">
-        INSERT INTO
-    </insert>
+    <!--반납버튼을 누름과 동시에 book.status값 대여가능-->
+    <update id="updateBookStatusTrue" parameterType="com.project.library.dto.request.RentRequest">
+        UPDATE
+            rent as r
+        INNER JOIN
+            book as b
+        ON
+            r.bookId = b.id
+        SET
+            b.status = '대여가능'
+        WHERE
+            r.id = #{id} AND b.status = '대여불가'
+    </update>
+
+    <!-- 반납 했을시 시간 변경-->
+    <update id="updateReturn" parameterType="long">
+        UPDATE
+            rent
+        SET
+            returnDate = NOW()
+        WHERE
+            id = #{id}
+    </update>
+
+
+
 
 </mapper>
 
