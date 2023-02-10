@@ -4,10 +4,7 @@ import com.project.library.dto.request.RentRequest;
 import com.project.library.dto.response.RentResponse;
 import com.project.library.service.RentService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -21,6 +18,17 @@ public class RentController {
     @PostMapping("")
     public RentResponse saveRent(@RequestBody RentRequest request) {
         return rentService.saveRent(request);
+    }
+
+    // 책 반납
+    @PutMapping("/{id}")
+    public RentResponse updateReturn(@PathVariable Long id) {
+        RentRequest request = new RentRequest();
+        request.setId(id);
+//        rentService.updateReturn(request);
+        rentService.updateReturn(id);
+        RentResponse response = rentService.findById(id);
+        return response;
     }
 }
 

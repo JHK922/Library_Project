@@ -21,13 +21,24 @@ public class RentService {
      */
     public RentResponse saveRent(RentRequest request) {
         rentMapper.saveRent(request);
-        rentMapper.updateBookStatus(request);
+        rentMapper.updateBookStatusFalse(request); // 대여불가으로 update
         return rentMapper.findById(request.getId());
     }
 
     /**
-     * 대여정보 PK로 받아오기
-     * @param id
+     * 반납 (정보 저장)
+     * @param id - PK
+     * @return
+     */
+    public RentResponse updateReturn(Long id) {
+        rentMapper.updateReturn(id);
+        rentMapper.updateBookStatusTrue(id); // 대여가능으로 update
+        return rentMapper.findById(id);
+    }
+
+    /**
+     * 대여/반납정보 PK로 받아오기
+     * @param id - PK
      * @return
      */
     public RentResponse findById(Long id) {
