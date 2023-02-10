@@ -36,9 +36,9 @@ public class MemberController {
 
     // 회원정보 등록(저장)
     @PostMapping("")
-    public List<MemberResponse> saveMember(@RequestBody MemberRequest request) {
+    public MemberResponse saveMember(@RequestBody MemberRequest request) {
         memberService.saveMember(request);
-        List<MemberResponse> response = memberService.findByName(request.getName());
+        MemberResponse response = memberService.findById(request.getId());
         return response;
     }
 

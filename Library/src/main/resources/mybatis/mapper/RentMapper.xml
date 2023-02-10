@@ -36,7 +36,7 @@
     </select>
 
     <!-- 대여버튼을 누름과 동시에 book.status값 update -->
-    <update id="updateBookStatus" parameterType="long">
+    <update id="updateBookStatus" parameterType="com.project.library.dto.request.RentRequest">
         UPDATE
             rent as r
         INNER JOIN
@@ -48,6 +48,10 @@
         WHERE
             r.bookId = #{bookId} AND b.status = '대여가능'
     </update>
+
+    <insert id="returnSave" parameterType="com.project.library.dto.request.RentRequest">
+        INSERT INTO
+    </insert>
 
 </mapper>
 
