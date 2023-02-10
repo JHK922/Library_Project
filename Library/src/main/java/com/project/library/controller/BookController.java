@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,7 +33,6 @@ import java.util.List;
 public class BookController {
     private final BookService bookService;
 
-
     /**
      * 책 정보 저장 후 최근 저장한 동일한 책의 데이터를 반환
      *
@@ -41,10 +41,18 @@ public class BookController {
      */
     @PostMapping
     public ResponseEntity createBook(@RequestBody BookPostRequestDto requestDto) {
+
         bookService.saveBook(requestDto);
         BookResponseDto responseDto = bookService.findById(requestDto.getId());
-
         log.info("Created Book Id -> {}", requestDto.getId());
+        log.info("Insert Category insert into Book -> {}", requestDto.getCategoryList());
+
+
+        /**
+         * book의 정보와 함께 categoryId List를 입력 받는다.
+         * 테이블에 정보를 저장할 때 book의 ID와 categoryId List를 같이 저장해야한다.
+         * 그럼 book request 클래스 필드에 List로 객체가 아닌 Long이 선언되어야 하는게 아닐까 ?
+         */
         /**
          * book에 대한 정보를 입력 받는다. 기본 정보와 category id를 배열 형태로 입력 받는다.
          * book에 대한 정보를 book 테이블에 저장하고

@@ -2,8 +2,10 @@ package com.project.library.mapper;
 
 import com.project.library.dto.request.BookPatchRequestDto;
 import com.project.library.dto.request.BookPostRequestDto;
+import com.project.library.dto.response.BookAndCategoryDto;
 import com.project.library.dto.response.BookResponseDto;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -15,6 +17,8 @@ public interface BookMapper {
      * @param requestDto
      */
     Long saveBook(BookPostRequestDto requestDto);
+
+    void saveBookCategory(@Param("bookAndCategory") BookAndCategoryDto bookAndCategory);
 
     /**
      * 입력 또는 수정한 Book에 대한 정보를 Response

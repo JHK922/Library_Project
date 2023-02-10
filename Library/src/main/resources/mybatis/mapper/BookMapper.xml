@@ -112,7 +112,7 @@
 
     </insert>
 
-    <!--  Book Date Update  -->
+    <!-- request Body 요청 데이터를 DB에 저장-->
     <update id="updateBook" parameterType="com.project.library.dto.request.BookPatchRequestDto">
         UPDATE book
         SET
@@ -126,6 +126,18 @@
             deleteStatus = #{deleteStatus}
         WHERE id = #{id}
     </update>
+
+    <!--  Book Date Update  -->
+    <insert id="saveBookCategory" parameterType="com.project.library.dto.response.BookAndCategoryDto" >
+<!--        <foreach collection="bookAndCategory" index="index" item="item" open="[" separator="," close="]">-->
+        INSERT INTO bookAndCategory (
+            bookId, categoryId
+        ) VALUES (
+            #{bookAndCategory.bookId},
+            #{bookAndCategory.categoryId}
+            )
+<!--        </foreach>-->
+    </insert>
 
 
 </mapper>
