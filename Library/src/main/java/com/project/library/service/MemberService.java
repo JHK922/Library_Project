@@ -20,7 +20,6 @@ public class MemberService {
     /**
      * 회원정보 등록(저장)
      * @param request
-     * @return Generated PK
      */
     public void saveMember(MemberRequest request) {
         memberMapper.saveMember(request);
@@ -48,14 +47,13 @@ public class MemberService {
      * @param name
      * @return 지정 회원정보
      */
-    public MemberResponse findByName(String name) {
+    public List<MemberResponse> findByName(String name) {
         return memberMapper.findByName(name);
     }
 
     /**
      * 회원정보 수정
      * @param request - 회원정보
-     * @return PK
      */
     public void updateMember(MemberRequest request) {
         memberMapper.updateMember(request);
@@ -64,7 +62,6 @@ public class MemberService {
     /**
      * 회원정보 삭제
      * @param id - PK
-     * @return PK
      */
     public void deleteMember(final Long id) {
         memberMapper.deleteById(id);

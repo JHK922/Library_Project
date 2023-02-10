@@ -50,6 +50,7 @@ public class NoticeController {
         return response;
     }
 
+    // 게시글 삭제
     @DeleteMapping("/{id}")
     public NoticeResponse deleteNotice(@PathVariable Long id) {
         noticeService.deleteNotice(id);

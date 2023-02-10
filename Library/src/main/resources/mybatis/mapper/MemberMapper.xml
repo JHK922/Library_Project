@@ -11,9 +11,8 @@
     <insert id="saveMember" parameterType="com.project.library.dto.request.MemberRequest"
     useGeneratedKeys="true" keyProperty="id">
         INSERT INTO member (
-            id, email, password1, password2, name, birth, address, phone, createdAt, deleteYn, roleId
+            email, password1, password2, name, birth, address, phone, createdAt, deleteYn, roleId
         ) VALUES (
-            #{id},
             #{email},
             #{password1},
             #{password2},
@@ -30,7 +29,7 @@
     <!-- 회원정보 지정 조회 -->
     <select id="findById"  resultType="com.project.library.dto.response.MemberResponse">
         SELECT
-            a.email, a.name, a.birth, a.address, a.phone, a.createdAt,
+            a.id, a.email, a.name, a.birth, a.address, a.phone, a.createdAt, a.roleId,
             b.roleType
         FROM
             member as a
@@ -45,7 +44,7 @@
     <!-- 회원정보 지정 조회 -->
     <select id="findByName"  resultType="com.project.library.dto.response.MemberResponse">
         SELECT
-            a.email, a.name, a.birth, a.address, a.phone, a.createdAt,
+            a.id, a.email, a.name, a.birth, a.address, a.phone, a.createdAt, a.roleId,
             b.roleType
         FROM
             member as a

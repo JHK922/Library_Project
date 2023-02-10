@@ -2,7 +2,6 @@ package com.project.library.controller;
 
 import com.project.library.dto.request.MemberRequest;
 import com.project.library.dto.response.MemberResponse;
-import com.project.library.dto.response.NoticeResponse;
 import com.project.library.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,23 +22,23 @@ public class MemberController {
         return memberService.findAll();
     }
 
-    // 회원정보 지정 조회 (PK)
+    // 회원정보 지정 조회 (URI로 받음)
     @GetMapping("/{id}")
     public MemberResponse findById(@PathVariable Long id) {
         return memberService.findById(id);
     }
 
-    // 회원정보 지정 조회 (name)
+    // 회원정보 지정 조회 (파라미터로 받음)
     @GetMapping ("/find")
-    public MemberResponse findByName(@RequestParam String name) {
+    public List<MemberResponse> findByName(@RequestParam String name) {
         return memberService.findByName(name);
     }
 
     // 회원정보 등록(저장)
     @PostMapping("")
-    public MemberResponse saveMember(@RequestBody MemberRequest request) {
+    public List<MemberResponse> saveMember(@RequestBody MemberRequest request) {
         memberService.saveMember(request);
-        MemberResponse response = memberService.findById(request.getId());
+        List<MemberResponse> response = memberService.findByName(request.getName());
         return response;
     }
 
@@ -50,7 +49,6 @@ public class MemberController {
         memberService.updateMember(request);
         MemberResponse response = memberService.findById(id);
         return response;
-
     }
 
     // 회원정보 삭제(논리적 삭제)

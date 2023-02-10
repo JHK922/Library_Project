@@ -27,16 +27,14 @@ public interface MemberMapper {
     /**
      * 해당 회원정보 조회
      * @param id - PK
-     * @return 해당 회원 정보
      */
     MemberResponse findById(Long id);
 
     /**
      * 해당 회원정보 조회
      * @param name - PK
-     * @return 해당 회원 정보
      */
-    MemberResponse findByName(String name);
+    List<MemberResponse> findByName(String name);
 
     /**
      * 회원정보 수정
