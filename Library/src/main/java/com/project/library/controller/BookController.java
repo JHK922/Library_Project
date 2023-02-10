@@ -2,6 +2,7 @@ package com.project.library.controller;
 
 import com.project.library.dto.request.BookPatchRequestDto;
 import com.project.library.dto.request.BookPostRequestDto;
+import com.project.library.dto.response.BookAndCategoryDto;
 import com.project.library.dto.response.BookResponseDto;
 import com.project.library.response.MultiResponse;
 import com.project.library.response.SingleResponse;
@@ -11,8 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.ResponseExtractor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,7 +33,6 @@ import java.util.List;
 public class BookController {
     private final BookService bookService;
 
-
     /**
      * 책 정보 저장 후 최근 저장한 동일한 책의 데이터를 반환
      *
@@ -41,20 +41,38 @@ public class BookController {
      */
     @PostMapping
     public ResponseEntity createBook(@RequestBody BookPostRequestDto requestDto) {
-        bookService.saveBook(requestDto);
-        BookResponseDto responseDto = bookService.getInfoBook(requestDto.getTitle());
-        log.info("Insert Book info -> {}", responseDto.getTitle());
 
+        bookService.saveBook(requestDto);
+        BookResponseDto responseDto = bookService.findById(requestDto.getId());
+        log.info("Created Book Id -> {}", requestDto.getId());
+        log.info("Insert Category insert into Book -> {}", requestDto.getCategoryList());
+
+
+        /**
+         * book의 정보와 함께 categoryId List를 입력 받는다.
+         * 테이블에 정보를 저장할 때 book의 ID와 categoryId List를 같이 저장해야한다.
+         * 그럼 book request 클래스 필드에 List로 객체가 아닌 Long이 선언되어야 하는게 아닐까 ?
+         */
+        /**
+         * book에 대한 정보를 입력 받는다. 기본 정보와 category id를 배열 형태로 입력 받는다.
+         * book에 대한 정보를 book 테이블에 저장하고
+         * 해당 book ID와 category id 배열을 bookAndCategory 테이블에 저장한다
+         */
         return new ResponseEntity<>(new SingleResponse<>(responseDto), HttpStatus.CREATED);
     }
 
-//    @GetMapping("")
-//    public ResponseEntity getBookList() {
-//        log.info("Searching Book -> {}", bookService.getBookList());
-//        List<BookResponseDto> bookResponseDtoList = bookService.getBookList();
-//
-//        return new ResponseEntity<>(new MultiResponse(bookResponseDtoList), HttpStatus.OK);
-//    }
+    /**
+     * category ID를 이용한 book 조회
+     * @param id
+     * @return
+     */
+    @GetMapping("/info/category")
+    public ResponseEntity getBookList(@RequestParam("category")Long id) {
+        log.info("Searching Book -> {}", bookService.getBookByCategoryId(id).size());
+        List<BookResponseDto> bookResponseDtoList = bookService.getBookByCategoryId(id);
+
+        return new ResponseEntity<>(new MultiResponse(bookResponseDtoList), HttpStatus.OK);
+    }
 
     /**
      * 책 title 혹은 writer로 조회

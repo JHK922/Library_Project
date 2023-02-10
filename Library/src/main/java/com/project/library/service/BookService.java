@@ -2,15 +2,20 @@ package com.project.library.service;
 
 import com.project.library.dto.request.BookPatchRequestDto;
 import com.project.library.dto.request.BookPostRequestDto;
+import com.project.library.dto.response.BookAndCategoryDto;
 import com.project.library.dto.response.BookResponseDto;
 import com.project.library.mapper.BookMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class BookService {
     private final BookMapper bookMapper;
 
@@ -20,12 +25,18 @@ public class BookService {
      * @param requestDto
      * @return
      */
-    public void saveBook(BookPostRequestDto requestDto) {
-
+    public Long saveBook(BookPostRequestDto requestDto) {
         bookMapper.saveBook(requestDto);
 
-    }
+        BookAndCategoryDto bookAndCategoryDto = new BookAndCategoryDto();
 
+        for(int i = 0 ; i < requestDto.getCategoryList().size() ; i++){
+            bookAndCategoryDto.setBookId(requestDto.getId());
+            bookAndCategoryDto.setCategoryId(requestDto.getCategoryList().get(i));
+            bookMapper.saveBookCategory(bookAndCategoryDto);
+        }
+        return requestDto.getId();
+    }
     /**
      * parameter로 책의 제목을 받음
      * @return 책 정보 반환
@@ -34,14 +45,10 @@ public class BookService {
         return bookMapper.findByTitle(bookTitle);
     }
 
-    public List<BookResponseDto> getInfoBookWithTitle(String title) {
-        return bookMapper.findsByTitle(title);
-    }
-    /**
-     * @return
-     */
-    public List<BookResponseDto> getInfoBookWithWriter(String bookWriter) {
-        return bookMapper.findByWriter(bookWriter);
+    public List<BookResponseDto> getBookByCategoryId(Long id) {
+        return bookMapper.findByCategoryId(id);
+//        return
+
     }
 
     public BookResponseDto deleteBook(Long bookId) {
