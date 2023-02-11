@@ -28,13 +28,15 @@ public class BookService {
     public Long saveBook(BookPostRequestDto requestDto) {
         bookMapper.saveBook(requestDto);
 
-        BookAndCategoryDto bookAndCategoryDto = new BookAndCategoryDto();
-
+        List<BookAndCategoryDto> bookAndCategoryDtoList = new ArrayList<>();
         for(int i = 0 ; i < requestDto.getCategoryList().size() ; i++){
-            bookAndCategoryDto.setBookId(requestDto.getId());
-            bookAndCategoryDto.setCategoryId(requestDto.getCategoryList().get(i));
-            bookMapper.saveBookCategory(bookAndCategoryDto);
+            bookAndCategoryDtoList.add(new BookAndCategoryDto(requestDto.getId(),
+                    requestDto.getCategoryList().get(i)));
         }
+        for (BookAndCategoryDto bd:bookAndCategoryDtoList){
+            System.out.println(bd);
+        }
+        bookMapper.saveBookCategory(bookAndCategoryDtoList);
         return requestDto.getId();
     }
     /**
@@ -47,8 +49,6 @@ public class BookService {
 
     public List<BookResponseDto> getBookByCategoryId(Long id) {
         return bookMapper.findByCategoryId(id);
-//        return
-
     }
 
     public BookResponseDto deleteBook(Long bookId) {
@@ -61,7 +61,14 @@ public class BookService {
     }
 
     public BookResponseDto findById(Long bookId) {
-        return bookMapper.findByBookId(bookId);
+
+        BookResponseDto byBookId = bookMapper.findByBookId(bookId);
+        byBookId.setCategoryId(bookMapper.findCategoryByBook(bookId));
+        for (int i = 0; i < bookMapper.findCategoryByBook(bookId).size() ; i++) {
+            System.out.println(bookMapper.findCategoryByBook(bookId).toString());
+
+        }
+        return byBookId;
     }
 
     public List<BookResponseDto> findBook(String title, String writer) {
