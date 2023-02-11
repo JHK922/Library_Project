@@ -18,7 +18,7 @@ public interface BookMapper {
      */
     Long saveBook(BookPostRequestDto requestDto);
 
-    void saveBookCategory(@Param("bookAndCategory") BookAndCategoryDto bookAndCategory);
+    void saveBookCategory(List<BookAndCategoryDto> bookAndCategoryDto);
 
     /**
      * 입력 또는 수정한 Book에 대한 정보를 Response
@@ -32,6 +32,8 @@ public interface BookMapper {
     void deleteBook(Long bookId);
 
     BookResponseDto findByBookId(Long bookId);
+
+    List<Long> findCategoryByBook(Long id);
     /**
      * 책 이름으로 조회, 내림차순 정렬(최신순)
      * @param patchRequest

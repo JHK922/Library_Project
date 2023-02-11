@@ -42,9 +42,26 @@
     </select>
     <!-- Book 고유키 id로 조회   -->
     <select id="findByBookId" resultType="com.project.library.dto.response.BookResponseDto">
-        SELECT *
-        FROM book
-        WHERE id = #{id};
+        SELECT
+            b.id,
+            b.title,
+            b.writer,
+            b.publicateAt,
+            b.status,
+            b.recommend,
+            b.createdAt,
+            b.modifiedAt,
+            b.deleteStatus
+        FROM book AS b
+        WHERE b.id = #{id}
+    </select>
+
+    <select id="findCategoryByBook" parameterType="Long" resultType="Long">
+        SELECT bc.categoryId
+        FROM bookAndCategory AS bc
+        inner join book As b
+        on bc.bookId = b.id
+        Where b.id = #{id}
     </select>
 
     <!-- Book title, writer로 조회   -->
@@ -128,16 +145,16 @@
     </update>
 
     <!--  Book Date Update  -->
-    <insert id="saveBookCategory" parameterType="com.project.library.dto.response.BookAndCategoryDto" >
-<!--        <foreach collection="bookAndCategory" index="index" item="item" open="[" separator="," close="]">-->
+    <insert id="saveBookCategory" parameterType="java.util.List" >
         INSERT INTO bookAndCategory (
-            bookId, categoryId
-        ) VALUES (
-            #{bookAndCategory.bookId},
-            #{bookAndCategory.categoryId}
+                              bookId, categoryId)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.bookId},
+            #{item.categoryId}
             )
-<!--        </foreach>-->
+        </foreach>
     </insert>
-
 
 </mapper>
