@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -25,7 +24,7 @@ public class BookService {
      * @param requestDto
      * @return
      */
-    public Long saveBook(BookPostRequestDto requestDto) {
+    public BookResponseDto saveBook(BookPostRequestDto requestDto) {
         bookMapper.saveBook(requestDto);
 
         List<BookAndCategoryDto> bookAndCategoryDtoList = new ArrayList<>();
@@ -33,11 +32,9 @@ public class BookService {
             bookAndCategoryDtoList.add(new BookAndCategoryDto(requestDto.getId(),
                     requestDto.getCategoryList().get(i)));
         }
-        for (BookAndCategoryDto bd:bookAndCategoryDtoList){
-            System.out.println(bd);
-        }
         bookMapper.saveBookCategory(bookAndCategoryDtoList);
-        return requestDto.getId();
+
+        return findById(requestDto.getId());
     }
     /**
      * parameter로 책의 제목을 받음
@@ -61,14 +58,10 @@ public class BookService {
     }
 
     public BookResponseDto findById(Long bookId) {
+        BookResponseDto responseDto = bookMapper.findByBookId(bookId);
+        responseDto.setCategoryName(bookMapper.findCategoryNameByBookId(bookId));
 
-        BookResponseDto byBookId = bookMapper.findByBookId(bookId);
-        byBookId.setCategoryId(bookMapper.findCategoryByBook(bookId));
-        for (int i = 0; i < bookMapper.findCategoryByBook(bookId).size() ; i++) {
-            System.out.println(bookMapper.findCategoryByBook(bookId).toString());
-
-        }
-        return byBookId;
+        return responseDto;
     }
 
     public List<BookResponseDto> findBook(String title, String writer) {
