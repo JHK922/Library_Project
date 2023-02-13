@@ -42,8 +42,7 @@ public class BookController {
     @PostMapping
     public ResponseEntity createBook(@RequestBody BookPostRequestDto requestDto) {
 
-        bookService.saveBook(requestDto);
-        BookResponseDto responseDto = bookService.findById(requestDto.getId());
+        BookResponseDto responseDto = bookService.saveBook(requestDto);
         log.info("Created Book Id -> {}", requestDto.getId());
         log.info("Insert Category insert into Book -> {}", requestDto.getCategoryList());
 
@@ -62,16 +61,17 @@ public class BookController {
     }
 
     /**
-     * category ID를 이용한 book 조회
+     * category ID를 이용한 book List 조회
+     *
      * @param id
-     * @return
+     * @return bookResponseDto
      */
     @GetMapping("/info/category/{category-id}")
-    public ResponseEntity getBookList(@PathVariable("category-id")Long id) {
+    public ResponseEntity getBookListByCategoryId(@PathVariable("category") Long id) {
         log.info("Searching Book -> {}", bookService.getBookByCategoryId(id).size());
-        List<BookResponseDto> bookResponseDtoList = bookService.getBookByCategoryId(id);
+        List<BookResponseDto> responseDtoList = bookService.getBookByCategoryId(id);
 
-        return new ResponseEntity<>(new MultiResponse(bookResponseDtoList), HttpStatus.OK);
+        return new ResponseEntity<>(new MultiResponse(responseDtoList), HttpStatus.OK);
     }
 
     /**
@@ -79,11 +79,11 @@ public class BookController {
      * @param title
      * @param writer
      * @return 책 정보를 모두 조회
-     * */
+     */
 
     @GetMapping("/info")
     public ResponseEntity getBooks(@RequestParam("title") String title,
-                                         @RequestParam("writer") String writer) {
+                                   @RequestParam("writer") String writer) {
         List<BookResponseDto> responseDtos = bookService.findBook(title, writer);
         log.info("Get Books info");
 
@@ -92,11 +92,12 @@ public class BookController {
 
     /**
      * 책의 고유 id를 이용해 조회
+     *
      * @param id
      * @return
      */
     @GetMapping("/info/{id}")
-    public ResponseEntity getBook(@PathVariable("id")Long id) {
+    public ResponseEntity getBook(@PathVariable("id") Long id) {
         BookResponseDto responseDto = bookService.findById(id);
         log.info("Get Book info -> {}", responseDto);
         return new ResponseEntity<>(new SingleResponse<>(responseDto), HttpStatus.OK);
@@ -104,6 +105,7 @@ public class BookController {
 
     /**
      * book 논리적 삭제
+     *
      * @param bookId
      * @return bookResponseDto
      */
@@ -116,6 +118,7 @@ public class BookController {
 
     /**
      * book 정보 업데이트
+     *
      * @param bookId
      * @retuen responseDto
      */
