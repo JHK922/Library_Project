@@ -1,20 +1,15 @@
 package com.project.library.dto.response;
 
-import ch.qos.logback.core.rolling.helper.IntegerTokenConverter;
-import com.project.library.dto.request.BookPostRequestDto;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.sql.Date;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Book 기능 응답에 대한 DTO
  */
-@Getter
-@Setter
+@Data
 public class BookResponseDto {
     private Long id;
     private String title; //책 제목
@@ -25,7 +20,6 @@ public class BookResponseDto {
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
     private boolean deleteStatus;
-    private List<Long> categoryId;
-//    private Long
+    private List<String> categoryName;
 
 }
