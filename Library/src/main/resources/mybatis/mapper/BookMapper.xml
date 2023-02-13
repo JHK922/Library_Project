@@ -97,7 +97,7 @@
             INNER JOIN bookAndCategory AS bc
             ON b.id = bc.bookId
             INNER JOIN category AS c
-            ON bc.bookId = c.id
+            ON bc.categoryId = c.id
         WHERE c.id = #{id}
     </select>
 
