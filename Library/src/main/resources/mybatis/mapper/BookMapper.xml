@@ -56,12 +56,12 @@
         WHERE b.id = #{id}
     </select>
 
-    <select id="findCategoryByBook" parameterType="Long" resultType="Long">
-        SELECT bc.categoryId
-        FROM bookAndCategory AS bc
-        inner join book As b
-        on bc.bookId = b.id
-        Where b.id = #{id}
+    <select id="findCategoryNameByBookId" parameterType="Long" resultType="String">
+        SELECT c.name
+        FROM category AS c
+        inner join bookAndCategory As bc
+        on c.id = bc.categoryId
+        Where bc.bookId = #{id}
     </select>
 
     <!-- Book title, writer로 조회   -->

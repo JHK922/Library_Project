@@ -67,7 +67,7 @@ public class BookController {
      * @return bookResponseDto
      */
     @GetMapping("/info/category/{category-id}")
-    public ResponseEntity getBookListByCategoryId(@PathVariable("category") Long id) {
+    public ResponseEntity getBookListByCategoryId(@PathVariable("category-id") Long id) {
         log.info("Searching Book -> {}", bookService.getBookByCategoryId(id).size());
         List<BookResponseDto> responseDtoList = bookService.getBookByCategoryId(id);
 
