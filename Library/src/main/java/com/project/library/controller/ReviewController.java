@@ -46,5 +46,10 @@ public class ReviewController {
     public ResponseEntity getReview(@PathVariable("book-id")Long bookId) {
         return new ResponseEntity<>(new MultiResponse<>(reviewService.findReviewByBookId(bookId)), HttpStatus.OK);
     }
+
+    @GetMapping("/members/{member-id}")
+    public ResponseEntity getMyReview(@PathVariable("member-id")Long memberId) {
+        return new ResponseEntity<>(new MultiResponse<>(reviewService.findReviewsByMemberId(memberId)), HttpStatus.OK);
+    }
 }
 

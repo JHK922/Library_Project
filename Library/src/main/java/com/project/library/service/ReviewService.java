@@ -23,12 +23,27 @@ public class ReviewService {
         reviewMapper.saveReview(requestDto);
     }
 
+    /**
+     * review 작성 글 수정
+     * @param requestDto
+     * @return
+     */
     public Integer updateReview(ReviewRequestDto requestDto) {
         Integer integer = reviewMapper.updateReview(requestDto);
         return integer;
     }
 
+    /**
+     * book에 작성된 review list 조회
+     * @param bookId
+     * @return
+     */
     public List<ReviewResponseDto> findReviewByBookId(Long bookId) {
         return reviewMapper.findReviewByBookId(bookId);
     }
+
+    public List<ReviewResponseDto> findReviewsByMemberId(Long memberId) {
+        return reviewMapper.findReviewsByMemberId(memberId);
+    }
+
 }

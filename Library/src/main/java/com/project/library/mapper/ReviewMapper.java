@@ -11,6 +11,6 @@ import java.util.List;
 public interface ReviewMapper {
     void saveReview(ReviewRequestDto requestDto);
     Integer updateReview(ReviewRequestDto requestDto);
-
     List<ReviewResponseDto> findReviewByBookId(Long bookId);
+    List<ReviewResponseDto> findReviewsByMemberId(Long memberId);
 }
