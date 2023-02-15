@@ -57,11 +57,11 @@
     </select>
 
     <select id="findCategoryNameByBookId" parameterType="Long" resultType="String">
-        SELECT c.name
-        FROM category AS c
-        inner join bookAndCategory As bc
-        on c.id = bc.categoryId
-        Where bc.bookId = #{id}
+        select c.name
+        from category as c
+        inner join bookandcategory as bc
+        on c.id = bc.categoryid
+        where bc.bookid = #{id}
     </select>
 
     <!-- Book title, writer로 조회   -->

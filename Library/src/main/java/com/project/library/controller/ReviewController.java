@@ -7,10 +7,7 @@ import com.project.library.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * book에 대한 review
@@ -27,9 +24,14 @@ public class ReviewController {
     private final ReviewService reviewService;
     @PostMapping("")
     public ResponseEntity createReview(@RequestBody ReviewRequestDto requestDto) {
-//        ReviewResponseDto responseDto =
         reviewService.saveReview(requestDto);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PatchMapping("/{review-id}")
+    public ResponseEntity updateReview(@PathVariable("review-id")Long id, @RequestBody ReviewRequestDto requestDto) {
+        requestDto.setId(id);
+        return new ResponseEntity<>(new SingleResponse<>(reviewService.updateReview(requestDto)),HttpStatus.OK);
     }
 }
 

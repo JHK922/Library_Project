@@ -3,37 +3,26 @@
 <mapper namespace="com.project.library.mapper.ReviewMapper">
 
     <!-- request Body 요청 데이터를 DB에 저장-->
-    <insert id="saveReview" parameterType="com.project.library.dto.request.ReviewRequestDto" useGeneratedKeys="true" keyProperty="id">
+    <insert id="saveReview" parameterType="com.project.library.dto.request.ReviewRequestDto" useGeneratedKeys="true"
+            keyProperty="id">
 
-        INSERT INTO review (
-             content, createdAt, writer, deleteStatus, memberId, bookId
-        ) VALUES (
-        #{content}
-        , NOW()
-        , #{writer}
-        , true
-        , #{memberId}
-        , #{bookId}
-        );
+        insert into review (content, createdAt, writer, deleteStatus, memberId, bookId)
+        values ( #{content}
+               , now()
+               , #{writer}
+               , true
+               , #{memberId}
+               , #{bookId});
 
     </insert>
 
-    <!-- Book title, writer로 조회   -->
-    <select id="findReviewByBookId" resultType="com.project.library.dto.response.ReviewResponseDto">
-        SELECT r.id
-             , r.content
-             , r.modifiedAt
-             , r.writer
-             , m.memberId
-             , b.bookId
-        FROM review AS r
-                 INNER JOIN member AS m
-                            ON r.memberId = m.id
-                 INNER JOIN book AS b
-                            ON r.bookId = b.id
-        where b.id = #{bookId}
-
-
-    </select>
+    <update id="updateReview" parameterType="com.project.library.dto.request.ReviewRequestDto">
+        update review
+        set id         = #{id}
+          , content    = #{content}
+          , modifiedAt = now()
+          , writer = #{writer}
+        where id = #{id}
+    </update>
 
 </mapper>
