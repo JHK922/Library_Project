@@ -6,6 +6,7 @@ import com.project.library.response.MultiResponse;
 import com.project.library.response.SingleResponse;
 import com.project.library.service.ReviewService;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -50,6 +51,12 @@ public class ReviewController {
     @GetMapping("/members/{member-id}")
     public ResponseEntity getMyReview(@PathVariable("member-id")Long memberId) {
         return new ResponseEntity<>(new MultiResponse<>(reviewService.findReviewsByMemberId(memberId)), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{review-id}")
+    public ResponseEntity deleteReview(@PathVariable("review-id")Long reviewId) {
+
+        return new ResponseEntity<>(new SingleResponse<>(reviewService.deleteReview(reviewId)),HttpStatus.OK);
     }
 }
 

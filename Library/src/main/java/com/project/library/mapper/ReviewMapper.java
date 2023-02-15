@@ -13,4 +13,6 @@ public interface ReviewMapper {
     Integer updateReview(ReviewRequestDto requestDto);
     List<ReviewResponseDto> findReviewByBookId(Long bookId);
     List<ReviewResponseDto> findReviewsByMemberId(Long memberId);
+
+    Integer deleteReview(Long reviewId);
 }
