@@ -46,4 +46,8 @@ public class ReviewService {
         return reviewMapper.findReviewsByMemberId(memberId);
     }
 
+    public Integer deleteReview(Long reviewId) {
+        return reviewMapper.deleteReview(reviewId);
+    }
+
 }
