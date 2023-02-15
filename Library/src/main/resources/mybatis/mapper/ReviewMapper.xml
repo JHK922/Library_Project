@@ -48,7 +48,12 @@
                  inner join member as m
                             on r.memberId = m.id
         where m.id = #{memberId};
-
     </select>
+
+    <update id="deleteReview" parameterType="Long">
+        update review
+        set deleteStatus = false
+        where id = #{id}
+    </update>
 
 </mapper>
