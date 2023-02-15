@@ -10,8 +10,8 @@ public class ReviewResponseDto {
     private String content;
     private String writer;
     private LocalDateTime createdAt;
-//    private LocalDateTime modifiedAt;
-//    private Boolean deleteStatus;
+    private LocalDateTime modifiedAt;
+    private Boolean deleteStatus;
     private Long memberId;
     private Long bookId;
 }

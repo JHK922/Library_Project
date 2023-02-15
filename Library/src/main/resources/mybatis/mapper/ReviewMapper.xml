@@ -21,8 +21,24 @@
         set id         = #{id}
           , content    = #{content}
           , modifiedAt = now()
-          , writer = #{writer}
+          , writer     = #{writer}
         where id = #{id}
     </update>
+
+    <select id="findReviewByBookId" parameterType="Long"
+            resultType="com.project.library.dto.response.ReviewResponseDto">
+        select r.id,
+               m.name as writer,
+               r.content,
+               r.createdAt,
+               r.modifiedAt,
+               r.deleteStatus,
+               r.memberId,
+               r.bookId
+        from review as r
+        inner join member as m
+        on m.id = r.memberId
+        where r.bookId = #{bookId}
+    </select>
 
 </mapper>
