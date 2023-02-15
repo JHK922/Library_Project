@@ -6,10 +6,9 @@
     <insert id="saveReview" parameterType="com.project.library.dto.request.ReviewRequestDto" useGeneratedKeys="true"
             keyProperty="id">
 
-        insert into review (content, createdAt, writer, deleteStatus, memberId, bookId)
+        insert into review (content, createdAt, deleteStatus, memberId, bookId)
         values ( #{content}
                , now()
-               , #{writer}
                , true
                , #{memberId}
                , #{bookId});
@@ -39,6 +38,17 @@
         inner join member as m
         on m.id = r.memberId
         where r.bookId = #{bookId}
+    </select>
+
+    <select id="findReviewsByMemberId" parameterType="Long" resultType="com.project.library.dto.response.ReviewList">
+        select r.id, b.title, r.createdAt
+        from review as r
+                 inner join book as b
+                            on r.bookId = b.id
+                 inner join member as m
+                            on r.memberId = m.id
+        where m.id = #{memberId};
+
     </select>
 
 </mapper>
