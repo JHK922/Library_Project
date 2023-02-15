@@ -27,4 +27,8 @@ public class ReviewService {
         Integer integer = reviewMapper.updateReview(requestDto);
         return integer;
     }
+
+    public List<ReviewResponseDto> findReviewByBookId(Long bookId) {
+        return reviewMapper.findReviewByBookId(bookId);
+    }
 }
