@@ -10,7 +10,6 @@ public class ReviewRequestDto {
     private String content;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
-    private String writer;
     private Boolean deleteStatus;
     private Long memberId;
     private Long bookId;
