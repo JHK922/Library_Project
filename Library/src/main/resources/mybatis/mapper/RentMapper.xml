@@ -49,7 +49,7 @@
     </update>
 
     <!--반납버튼을 누름과 동시에 book.status값 대여가능-->
-    <update id="updateBookStatusTrue" parameterType="com.project.library.dto.request.RentRequest">
+    <update id="updateBookStatusTrue" parameterType="long">
         UPDATE
             rent as r
         INNER JOIN
@@ -71,9 +71,6 @@
         WHERE
             id = #{id}
     </update>
-
-
-
 
 </mapper>
 
