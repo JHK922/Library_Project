@@ -4,11 +4,13 @@ import com.project.library.dto.request.MemberRequest;
 import com.project.library.dto.response.MemberResponse;
 import com.project.library.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor // 생성자 자동 생성
 @Transactional
@@ -19,10 +21,26 @@ public class MemberService {
 
     /**
      * 회원정보 등록(저장)
+     * Email 중복검사, 비밀번호 일치 여부 확인
      * @param request
      */
     public void saveMember(MemberRequest request) {
-        memberMapper.saveMember(request);
+        int emailResult = memberMapper.checkEmail(request.getEmail()); // email 중복검사
+        if (emailResult == 1) {
+            log.info("email1 -> {}", emailResult);
+            System.out.println("기존 사용자가 있습니다");
+        } else if (emailResult == 0) {
+            log.info("email2 -> {}", emailResult);
+            if(request.getPassword1().equals(request.getPassword2())) {
+                System.out.println("비밀번호가 일치 합니다.");
+                memberMapper.saveMember(request); // 중복된 값이 없다면 저장
+                System.out.println("이메일을 사용할 수 있습니다.");
+                System.out.println("가입완료");
+            } else {
+                System.out.println("비밀번호가 일치하지 않습니다.");
+            }
+        }
+
     }
 
     /**
@@ -65,7 +83,7 @@ public class MemberService {
      */
     public void deleteMember(final Long id) {
         memberMapper.deleteById(id);
-
     }
+
 }
 
