@@ -93,6 +93,15 @@
             id = #{id}
     </delete>
 
+    <!-- email 중복검사-->
+    <select id="checkEmail" parameterType="String" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            member
+        WHERE
+            email = #{email}
+    </select>
 
 </mapper>
 
