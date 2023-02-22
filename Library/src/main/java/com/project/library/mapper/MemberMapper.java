@@ -47,4 +47,12 @@ public interface MemberMapper {
      * @param id -PK
      */
     void deleteById(Long id);
+
+    /**
+     * 이메일 중복 확인
+     * @param email
+     * @return
+     */
+    int checkEmail(String email);
+
 }

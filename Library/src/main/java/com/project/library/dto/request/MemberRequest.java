@@ -8,6 +8,10 @@ import java.util.Date;
 
 /**
  * 회원정보 생성, 수정에 사용 될 요청 클래스
+
+ * DTO(Data Transfer Object)
+ * 계층 간 데이터 교환을 위해 사용하는 객체
+ * 로직을 가지지 않는 순수한 데이터 객체 (Getter & Setter만 가진 클래스)
  */
 
 @Data
@@ -22,7 +26,7 @@ public class MemberRequest {
     private int birth;          // 생년월일
     private String address;     // 주소
     private String phone;       // 핸드폰번호
-    private Date createdAt;      // 가입날짜
+    private Date createdAt;     // 가입날짜
     private boolean deleteYn;   // 삭제 여부
     private long roleId;        // FK
     private String roleType;    // 권한(join)
