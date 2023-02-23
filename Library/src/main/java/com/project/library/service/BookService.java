@@ -20,13 +20,13 @@ public class BookService {
 
     /**
      * 요청한 받은 정보를 DB에 저장
-     * 저장 후 정보 반환 -> 중복된 책이 존재하는 경우가 있기 때문에 가장 최근 등록한 정보로 가져온다
+     * List로 요청 받은 category를 저장하기 위해 BookAndCategory 테이블에 필요한 객체 생성
      * @param requestDto
      * @return
      */
     public BookResponseDto saveBook(BookPostRequestDto requestDto) {
         bookMapper.saveBook(requestDto);
-
+        //BookAndCategory 테이블에 저장하기 위한 객체 List 생성
         List<BookAndCategoryDto> bookAndCategoryDtoList = new ArrayList<>();
         for(int i = 0 ; i < requestDto.getCategoryList().size() ; i++){
             bookAndCategoryDtoList.add(new BookAndCategoryDto(requestDto.getId(),
@@ -35,13 +35,6 @@ public class BookService {
         bookMapper.saveBookCategory(bookAndCategoryDtoList);
 
         return findById(requestDto.getId());
-    }
-    /**
-     * parameter로 책의 제목을 받음
-     * @return 책 정보 반환
-     */
-    public BookResponseDto getInfoBook(String bookTitle) {
-        return bookMapper.findByTitle(bookTitle);
     }
 
     public List<BookResponseDto> getBookByCategoryId(Long id) {
@@ -59,13 +52,27 @@ public class BookService {
 
     public BookResponseDto findById(Long bookId) {
         BookResponseDto responseDto = bookMapper.findByBookId(bookId);
-        responseDto.setCategoryName(bookMapper.findCategoryNameByBookId(bookId));
+        responseDto.setCategoryNames(String.join(" ,", bookMapper.findCategoryNamesByBookId(bookId)));
 
         return responseDto;
     }
 
     public List<BookResponseDto> findBook(String title, String writer) {
-        return bookMapper.findBook(title, writer);
+
+        List<BookResponseDto> bookResponseDtoList = bookMapper.findBook(title, writer);
+
+//        for (BookResponseDto responseDto : bookResponseDtoList) {
+//            List<String> categoryNameByBookId = bookMapper.findCategoryNamesByBookId(responseDto.getId());
+//            responseDto.setCategoryNames(String.join(", ", categoryNameByBookId));
+//        }
+
+        for (int i = 0; i < bookResponseDtoList.size(); i++) {
+            BookResponseDto responseDto = bookResponseDtoList.get(i);
+            responseDto.setCategoryNames(String.join(" ,",
+                    bookMapper.findCategoryNamesByBookId(responseDto.getId())));
+        }
+
+        return bookResponseDtoList;
     }
 
 }
