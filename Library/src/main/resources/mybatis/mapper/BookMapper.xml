@@ -60,9 +60,9 @@
     <select id="findCategoryNamesByBookId" parameterType="Long" resultType="String">
         select c.name
         from category as c
-                 inner join bookandcategory as bc
-                            on c.id = bc.categoryid
-        where bc.bookid = #{id}
+                 inner join bookAndCategory as bc
+                            on c.id = bc.categoryId
+        where bc.bookId = #{id}
     </select>
 
     <!-- Book title, writer로 조회   -->
