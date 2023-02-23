@@ -40,7 +40,7 @@
         where r.bookId = #{bookId}
     </select>
 
-    <select id="findReviewsByMemberId" parameterType="Long" resultType="com.project.library.dto.response.ReviewList">
+    <select id="findReviewsByMemberId" parameterType="Long" resultType="com.project.library.dto.response.ReviewResponseDto">
         select r.id, b.title, r.createdAt
         from review as r
                  inner join book as b
