@@ -33,12 +33,8 @@ public interface BookMapper {
 
     BookResponseDto findByBookId(Long bookId);
 
-    List<String> findCategoryNameByBookId(Long id);
-    /**
-     * 책 이름으로 조회, 내림차순 정렬(최신순)
-     * @param patchRequest
-     * @return
-     */
+    List<String> findCategoryNamesByBookId(Long id);
+
 
     void updateBook(BookPatchRequestDto patchRequest);
 
