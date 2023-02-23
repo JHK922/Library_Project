@@ -4,7 +4,6 @@ import lombok.Data;
 
 import java.sql.Date;
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * Book 기능 응답에 대한 DTO
@@ -20,6 +19,6 @@ public class BookResponseDto {
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
     private boolean deleteStatus;
-    private List<String> categoryName;
+    private String categoryNames;
 
 }
